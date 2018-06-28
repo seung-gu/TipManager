@@ -1,0 +1,29 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+saveFile
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+목 6 28 02:51:22 2018
+
+이번엔
+saveFile
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+void TipManager::saveFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Save Tip Code"), "",
+            tr("Tip Code (*.txt);;All Files (*)"));
+
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return;
+        }
+
+        QTextStream out(&file);
+        out << editSaveText();
+        file.close();
+    }
+}

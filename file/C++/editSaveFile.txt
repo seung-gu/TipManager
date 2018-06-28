@@ -1,0 +1,19 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+editSaveText
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+edited editSaveText function
+구성 : Title + Memo + Code 합치기
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+QString TipManager::editSaveText()
+{
+    QString titleLine = "/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *\n";
+    QString titleText = ui->titleEdit->text()+"\n";
+    QString memoLine = "* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *\n";
+    QString memoText = ui->memoTextEdit->toPlainText()+"\n";
+    QString codeLine = "* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */\n";
+    QString codeText = ui->codeTextEdit->toPlainText();
+
+    QString editText = titleLine+titleText+memoLine+memoText+codeLine+codeText;
+
+    return editText;
+}

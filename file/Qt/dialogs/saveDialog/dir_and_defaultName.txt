@@ -1,0 +1,18 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+on_saveButton_clicked
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+getSaveFileName() 함수에서 현재 dir와 default 이름을 동시에 설정하고 싶을때 :
+
+(3번째 파라미터에서)
+currentPath +"/"+ ui->titleEdit->text().trimmed()
+
+QFileDialog::getSaveFileName(QWidget * parent = 0, const QString & caption = QString(), const QString & dir = QString(), const QString & filter = QString(), QString * selectedFilter = 0, Options options = 0)
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+void TipManager::on_saveButton_clicked()
+{
+    //save dialog
+    QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Save Tip Code"), currentPath +"/"+ ui->titleEdit->text().trimmed(),
+            tr("Tip Code (*.txt);;All Files (*)"));
+    saveFile(fileName);
+}

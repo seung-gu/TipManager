@@ -1,0 +1,18 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+setTabStopWidth
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+Change the amount of tap space
+
+탭키 스페이스 양 조절
+
+#tap #space #amount
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+TipManager::TipManager(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::TipManager)
+{
+    ui->setupUi(this);
+
+//change the amount of tap space(instead of 8 blanks)
+    ui->codeTextEdit->setTabStopWidth(40);
+}

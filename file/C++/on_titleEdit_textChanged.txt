@@ -1,0 +1,17 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+on_titleEdit_textChanged
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+¸ñ 6 28 02:50:26 2018
+
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+void TipManager::on_titleEdit_textChanged(const QString &title)
+{
+    //when title text is empty, title bit is false
+    QString text = title;
+    text.trimmed().isEmpty() ? flagTitleEdit = false
+                   : flagTitleEdit = true;
+    //memo title edit is modified
+    flagModified = true;
+
+    enableButtons(); 
+}

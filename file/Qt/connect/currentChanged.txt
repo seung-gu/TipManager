@@ -1,0 +1,68 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+connect(currentChanged signal)
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+connect 연결
+signal : currentChanged in treeView
+
+/*(1)*/ 해놓은곳 처럼 위와 같은 경우 생성자에서 설정하면 안되고 
+/*(2)*/ 부분에서 treeView에 대해 setModel()이 먼저 설정되어야 connect함수내에서 ui->treeView->selectionModel()로 접근 가능.
+
+위를 위반시 다음과 같은 메세지 :
+
+2. QObject::connect: Cannot connect (null)::currentChanged(const QModelIndex &, const QModelIndex &) to TipManager::indexChanged(const QModelIndex &, const QModelIndex &) 3. QObject::connect: invalid null parameter --> 2. 3. 항 모두 connect() 문 시작 위치에 따른 문제로, TipManager::ctrTreeView() 함수 내에서 모델을 초기화하기 전에 시그널이 발생되기 때문
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+// .h
+public slots:
+    void indexChanged(const QModelIndex &current);
+
+
+// .cpp
+TipManager::TipManager(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::TipManager)
+{
+    ui->setupUi(this);
+
+    flagTitleEdit = flagCodeTextEdit = flagMemoTextEdit = false;
+    flagModified = false;
+
+  //change the amount of tap space(instead of 8 blanks) in codeTextEdit
+    ui->codeTextEdit->setTabStopWidth(40);
+  //setting directory
+    changeCurrentPath(QDir::currentPath());
+  //setting dirEdit
+    ui->dirEdit->setReadOnly(true);
+  //setting ctrTreeView
+    ctrTreeView();
+}
+
+
+void TipManager::ctrTreeView()
+{
+    model = new QDirModel;
+    model->setReadOnly(true);
+
+  //sorting order
+    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
+
+  //filtering (text and directory file only)
+    model->setFilter(QDir::Files | QDir::AllDirs | QDir::NoDotAndDotDot);
+    model->setNameFilters(QStringList() << "*.txt" );
+
+  //setting directory ( current directory -> file )
+    ui->treeView->setModel(model);							/*(1)*/
+    ui->treeView->setRootIndex(model->index(currentPath));
+
+  //showing only name in directory path
+    ui->treeView->hideColumn(1);
+    ui->treeView->hideColumn(2);
+    ui->treeView->hideColumn(3);
+
+  //signal connection  
+    connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &TipManager::indexChanged);								/*(2)*/
+}
+
+void TipManager::indexChanged(const QModelIndex &current/*, const QModelIndex &previous*/)
+{
+    trimCurrentPath(current);
+}

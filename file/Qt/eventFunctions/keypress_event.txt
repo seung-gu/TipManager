@@ -1,0 +1,35 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+eventFilter
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+keyboard event in textEdit not in Dialog
+
+textEdit 창 안에서의 키보드 이벤트 처리
+
+#keypress #event
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+//.h
+
+bool eventFilter(QObject *watched, QEvent *event);
+
+// .cpp
+TipManager::TipManager(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::TipManager)
+{
+    ui->setupUi(this);
+
+  //key event
+    ui->codeTextEdit->installEventFilter(this);
+}
+
+bool TipManager::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->codeTextEdit && event->type() == QEvent::KeyPress){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+    //    qDebug()<<keyEvent->key();
+        if(keyEvent->key() == Qt::Key_Tab)
+        {
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}

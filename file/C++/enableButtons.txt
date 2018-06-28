@@ -1,0 +1,21 @@
+/* * * * * * * * * * * * * * * * * Title * * * * * * * * * * * * * * * * * * *
+enableButtons
+* * * * * * * * * * * * * * * * * * Memo * * * * * * * * * * * * * * * * * * *
+enableButton function
+In TipManager program
+* * * * * * * * * * * * * * * * * * Code * * * * * * * * * * * * * * * * * * */
+void TipManager::enableButtons()
+{
+    //disable new button when all text boxes are empty
+    flagTitleEdit|flagCodeTextEdit|flagMemoTextEdit
+            ? ui->newButton->setEnabled(true)
+            : ui->newButton->setEnabled(false);
+    //enable save button when only both title and codeText bit are true
+    flagTitleEdit&flagCodeTextEdit
+            ? ui->saveButton->setEnabled(true)
+            : ui->saveButton->setEnabled(false);
+    //enable edit button when even a single text box is not empty
+    flagTitleEdit|flagCodeTextEdit|flagMemoTextEdit
+            ? ui->editButton->setEnabled(true)
+            : ui->editButton->setEnabled(false);
+}
